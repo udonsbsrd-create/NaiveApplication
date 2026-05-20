@@ -50,39 +50,41 @@ type ScrapeConfig = {
 const API_BASE = "/api/engine";
 const CATEGORIES = ["formation", "banking", "identity", "kyc", "infrastructure", "deployment", "mcp-discovery", "aeo"];
 const FILTER_CATEGORIES = ["all", "formation", "banking", "identity", "kyc", "infrastructure", "deployment", "mcp-discovery", "aeo"];
-const SOURCE_LIST = [
-  "r/entrepreneur",
-  "r/startups",
-  "r/smallbusiness",
-  "r/legaladvice",
-  "r/indiehackers",
-  "r/SaaS",
-  "r/AIAgents",
-  "r/LangChain",
-  "r/ClaudeAI",
-  "r/AutoGPT",
-  "r/SideProject",
-  "r/LocalLLaMA",
-  "r/digitalnomad",
-  "Hacker News",
-  "Stack Overflow",
+const TIGHT_SOURCES = [
+  "r/entrepreneur", "r/startups", "r/smallbusiness", "r/legaladvice",
+  "r/SaaS", "r/AIAgents", "Hacker News", "Stack Overflow",
 ];
+const BALANCED_SOURCES = [
+  "r/entrepreneur", "r/startups", "r/smallbusiness", "r/legaladvice",
+  "r/SaaS", "r/AIAgents", "r/LangChain", "r/ClaudeAI", "r/indiehackers",
+  "r/SideProject", "r/ChatGPT", "r/microsaas", "r/fintech",
+  "r/webdev", "r/LocalLLaMA", "r/digitalnomad", "Hacker News", "Stack Overflow",
+];
+const WIDE_SOURCES = [
+  "r/AIAgents", "r/LangChain", "r/ClaudeAI", "r/ChatGPT", "r/OpenAI",
+  "r/LocalLLaMA", "r/AutoGPT", "r/PromptEngineering", "r/ArtificialIntelligence", "r/GPT4",
+  "r/CrewAI", "r/indiehackers", "r/SideProject", "r/microsaas", "r/SaaS",
+  "r/startups", "r/EntrepreneurRideAlong", "r/entrepreneur", "r/smallbusiness", "r/growmybusiness",
+  "r/webdev", "r/ExperiencedDevs", "r/Python", "r/softwareengineering", "r/devops",
+  "r/aws", "r/legaladvice", "r/digitalnomad", "r/personalfinance", "r/tax",
+  "r/fintech", "r/stripe", "r/nocode", "r/n8n", "r/automation",
+  "r/Zapier", "r/Business", "Hacker News", "Stack Overflow",
+];
+const SOURCE_LIST = [...new Set([...WIDE_SOURCES])];
 const SOURCE_COLORS: Record<string, string> = {
-  "r/entrepreneur": "#ffe66d",
-  "r/startups": "#a8e6cf",
-  "r/smallbusiness": "#f97316",
-  "r/legaladvice": "#a78bfa",
-  "r/indiehackers": "#38bdf8",
-  "r/SaaS": "#4ecdc4",
-  "r/AIAgents": "#ff6b6b",
-  "r/LangChain": "#10b981",
-  "r/ClaudeAI": "#f59e0b",
-  "r/AutoGPT": "#e879f9",
-  "r/SideProject": "#fb923c",
-  "r/LocalLLaMA": "#34d399",
-  "r/digitalnomad": "#6366f1",
-  "Hacker News": "#ff9f43",
-  "Stack Overflow": "#4a9eff",
+  "r/entrepreneur": "#ffe66d", "r/startups": "#a8e6cf", "r/smallbusiness": "#f97316",
+  "r/legaladvice": "#a78bfa", "r/indiehackers": "#38bdf8", "r/SaaS": "#4ecdc4",
+  "r/AIAgents": "#ff6b6b", "r/LangChain": "#10b981", "r/ClaudeAI": "#f59e0b",
+  "r/AutoGPT": "#e879f9", "r/SideProject": "#fb923c", "r/LocalLLaMA": "#34d399",
+  "r/digitalnomad": "#6366f1", "Hacker News": "#ff9f43", "Stack Overflow": "#4a9eff",
+  "r/ChatGPT": "#74c0fc", "r/OpenAI": "#a9e34b", "r/PromptEngineering": "#ffa94d",
+  "r/ArtificialIntelligence": "#da77f2", "r/GPT4": "#63e6be", "r/CrewAI": "#ff8787",
+  "r/microsaas": "#66d9e8", "r/EntrepreneurRideAlong": "#ffd43b", "r/growmybusiness": "#8ce99a",
+  "r/webdev": "#4dabf7", "r/ExperiencedDevs": "#cc5de8", "r/Python": "#339af0",
+  "r/softwareengineering": "#20c997", "r/devops": "#f783ac", "r/aws": "#fd7e14",
+  "r/personalfinance": "#94d82d", "r/tax": "#e64980", "r/fintech": "#1c7ed6",
+  "r/stripe": "#7950f2", "r/nocode": "#f76707", "r/n8n": "#2f9e44",
+  "r/automation": "#e67700", "r/Zapier": "#f03e3e", "r/Business": "#868e96",
 };
 const CAT_COLORS: Record<string, { bg: string; text: string }> = {
   formation: { bg: "#0f2a1a", text: "#3ecf78" },
@@ -100,30 +102,33 @@ const PRESETS: Record<IntentMode, { label: string; best: string; config: Partial
     label: "Quick",
     best: "fast check",
     config: {
+      sources: TIGHT_SOURCES,
       recency_days: 90,
       max_results: 15,
       post_types: ["questions", "help", "ask_hn"],
-      source_floors: { "r/entrepreneur": 8, "r/startups": 8, "r/smallbusiness": 5, "r/legaladvice": 4, "r/indiehackers": 5, "r/SaaS": 5, "r/AIAgents": 6, "Hacker News": 8, "Stack Overflow": 2 },
+      source_floors: { "r/entrepreneur": 8, "r/startups": 8, "r/smallbusiness": 5, "r/legaladvice": 4, "r/SaaS": 5, "r/AIAgents": 6, "Hacker News": 8, "Stack Overflow": 2 },
     },
   },
   balanced: {
     label: "Standard",
     best: "weekly run",
     config: {
+      sources: BALANCED_SOURCES,
       recency_days: 180,
       max_results: 60,
       post_types: ["questions", "help", "discussion", "ask_hn"],
-      source_floors: { "r/entrepreneur": 5, "r/startups": 5, "r/smallbusiness": 4, "r/legaladvice": 3, "r/indiehackers": 4, "r/SaaS": 4, "r/AIAgents": 5, "Hacker News": 5, "Stack Overflow": 1 },
+      source_floors: { "r/entrepreneur": 5, "r/startups": 5, "r/smallbusiness": 4, "r/legaladvice": 3, "r/indiehackers": 4, "r/SaaS": 4, "r/AIAgents": 5, "r/LangChain": 4, "r/ClaudeAI": 4, "r/ChatGPT": 3, "r/microsaas": 3, "r/fintech": 3, "r/webdev": 3, "r/LocalLLaMA": 3, "r/SideProject": 3, "r/digitalnomad": 2, "Hacker News": 5, "Stack Overflow": 1 },
     },
   },
   wide: {
     label: "Deep",
     best: "max coverage",
     config: {
+      sources: WIDE_SOURCES,
       recency_days: 365,
-      max_results: 120,
+      max_results: 200,
       post_types: ["questions", "help", "discussion"],
-      source_floors: { "r/entrepreneur": 2, "r/startups": 2, "r/smallbusiness": 2, "r/legaladvice": 1, "r/indiehackers": 2, "r/SaaS": 2, "r/AIAgents": 2, "Hacker News": 2, "Stack Overflow": 0 },
+      source_floors: Object.fromEntries(WIDE_SOURCES.map(s => [s, s === "Stack Overflow" ? 0 : 2])),
     },
   },
 };
@@ -329,26 +334,17 @@ function buildGrowthSprintMarkdown(candidates: QueryRow[], aiScores: Record<numb
   return lines.join("\n");
 }
 
-const DEFAULT_SOURCES = [
-  "r/AIAgents",
-  "r/LangChain",
-  "r/ClaudeAI",
-  "r/AutoGPT",
-  "r/SideProject",
-  "r/LocalLLaMA",
-  "r/indiehackers",
-  "Hacker News",
-];
+const DEFAULT_SOURCES = WIDE_SOURCES;
 
 const defaultConfig: ScrapeConfig = {
   intent_mode: "wide",
   user_overrides: false,
-  sources: DEFAULT_SOURCES,
+  sources: WIDE_SOURCES,
   source_floors: PRESETS.wide.config.source_floors as Record<string, number>,
   post_types: PRESETS.wide.config.post_types as string[],
   recency_days: 365,
   categories: ["formation", "banking", "identity", "kyc"],
-  max_results: 120,
+  max_results: 200,
   clear_existing: true,
 };
 
