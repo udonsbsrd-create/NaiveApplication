@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import StickyNav from "./sticky-nav";
 
 export const metadata: Metadata = {
   title: "Naïve Growth Engineer Application — 48h Sprint",
@@ -64,8 +65,10 @@ export default function Home() {
         </div>
       </nav>
 
+      <StickyNav />
+
       {/* Hero */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "80px 28px 64px" }}>
+      <section style={{ maxWidth: 880, margin: "0 auto", padding: "80px 28px 64px", paddingTop: "120px" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 28 }}>
           Growth Engineer Application
         </div>
@@ -109,7 +112,7 @@ export default function Home() {
       </div>
 
       {/* Bug Report */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
+      <section id="bug" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--amber)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
           Bug Report · P1
         </div>
@@ -178,7 +181,7 @@ export default function Home() {
       </section>
 
       {/* Engine */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
+      <section id="engine" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--blue)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
           Tool Built
         </div>
@@ -280,7 +283,7 @@ export default function Home() {
       </section>
 
       {/* Opportunities */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
+      <section id="results" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
           Sprint Results
         </div>
@@ -315,7 +318,7 @@ export default function Home() {
       </section>
 
       {/* Blog Posts */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
+      <section id="blog" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--blue)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
           Content Assets
         </div>
@@ -367,7 +370,7 @@ export default function Home() {
       </section>
 
       {/* GEO */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
+      <section id="geo" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "#a78bfa", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
           GEO / AEO
         </div>
@@ -392,7 +395,7 @@ export default function Home() {
       </section>
 
       {/* Week 2 */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
+      <section id="roadmap" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--amber)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
           Roadmap
         </div>
