@@ -95,10 +95,9 @@ const CAT_COLORS: Record<string, { bg: string; text: string }> = {
   "aeo": { bg: "#0a2218", text: "#34d399" },
 };
 
-const PRESETS: Record<IntentMode, { label: string; range: string; best: string; config: Partial<ScrapeConfig> }> = {
+const PRESETS: Record<IntentMode, { label: string; best: string; config: Partial<ScrapeConfig> }> = {
   tight: {
     label: "Quick",
-    range: "~15",
     best: "fast check",
     config: {
       recency_days: 90,
@@ -109,7 +108,6 @@ const PRESETS: Record<IntentMode, { label: string; range: string; best: string; 
   },
   balanced: {
     label: "Standard",
-    range: "~60",
     best: "weekly run",
     config: {
       recency_days: 180,
@@ -120,7 +118,6 @@ const PRESETS: Record<IntentMode, { label: string; range: string; best: string; 
   },
   wide: {
     label: "Deep",
-    range: "~120",
     best: "max coverage",
     config: {
       recency_days: 365,
@@ -418,7 +415,6 @@ export default function Home() {
   }, [rows]);
 
   const maxVolume = Math.max(1, ...rows.map((row) => row.raw_score));
-  const expectedText = `${PRESETS[config.intent_mode].range} posts · ${PRESETS[config.intent_mode].best}`;
 
   const applyPreset = (mode: IntentMode) => {
     setConfig((current) => ({
@@ -560,11 +556,11 @@ export default function Home() {
 
   const exportGrowthSprint = async () => {
     const _download = (text: string) => {
-      const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+      const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "naive-growth-sprint.md";
+      link.download = "naive-growth-sprint.txt";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -640,7 +636,7 @@ export default function Home() {
               <option value="opportunity">Sort: Opportunity</option><option value="volume">Sort: Volume</option><option value="competition">Sort: Competition</option><option value="alpha">Sort: A–Z</option>
               {Object.keys(aiScores).length > 0 && <option value="ai">Sort: AI Fit ✦</option>}
             </select>
-            <button className="toolBtn primary" onClick={triggerScrape} disabled={scraping || config.sources.length === 0 || config.categories.length === 0} title={`Collect ${expectedText}`}>
+            <button className="toolBtn primary" onClick={triggerScrape} disabled={scraping || config.sources.length === 0 || config.categories.length === 0} title="Collect queries from selected sources">
               <RefreshCw size={14} className={scraping ? "spin" : ""} /> {scraping ? "collecting..." : "collect"}
             </button>
             <button className="toolBtn ai" onClick={runAIScan} disabled={aiScanning || !keyReady} title="Score all queries for Naïve fit using GPT-4o-mini">{aiScanning ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />} {aiScanning ? "scanning..." : "ai scan"}</button>
@@ -652,12 +648,12 @@ export default function Home() {
         <section className="configPanel">
           <div className="configHead" onClick={() => setConfigOpen(o => !o)}>
             <span>Scraper config</span>
-            <b>{expectedText} {configOpen ? "▲" : "▼"}</b>
+            <b>{PRESETS[config.intent_mode].label} · {PRESETS[config.intent_mode].best} {configOpen ? "▲" : "▼"}</b>
           </div>
           {configOpen && <div className="configBody"><div className="intentGrid">
             {(Object.keys(PRESETS) as IntentMode[]).map((mode) => (
               <button key={mode} className={`intentCard ${config.intent_mode === mode ? "active" : ""}`} onClick={() => applyPreset(mode)}>
-                <span>{PRESETS[mode].label}</span><b>{PRESETS[mode].range}</b><em>{PRESETS[mode].best}</em>
+                <span>{PRESETS[mode].label}</span><em>{PRESETS[mode].best}</em>
               </button>
             ))}
           </div>
