@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Eye, Loader2, RefreshCw, Search, Sparkles, X, Zap } from "lucide-react";
+import { Download, Eye, Lightbulb, Loader2, RefreshCw, Search, Sparkles, X, Zap } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 type FitTier = "PRIMARY" | "SECONDARY" | "SKIP";
@@ -170,6 +170,48 @@ GUARDRAILS (naive-context.md):
 - Pricing: formation $249/filing; cards $0/mo + interchange; pay-as-you-go compute — do not invent other prices or guarantees.
 - Do not duplicate existing "Introducing /formation" style posts.
 `;
+
+const NAIVE_CONTEXT = `ABOUT NAÏVE (usenaive.ai):
+Naïve is an autonomous company runtime API — infrastructure for AI agents to operate as real businesses.
+
+PRIMITIVES (what it actually does):
+- /formation: LLC filing for non-US founders, no SSN needed (via Doola), EIN obtainment
+- /kyc + /verification: Footprint-hosted identity verification flows
+- /cards: Stripe Issuing virtual cards with per-agent spend limits (NOT a full bank — pair with Mercury/Relay for full banking)
+- /email + /domain: business inboxes and domains for agents/companies
+- /browser + /credentials: headless browser automation, credential vault
+- /research: web research API for agents
+- /aeo/llm-responses, /aeo/llm-mentions, /aeo/ai-keywords: Answer Engine Optimization — track Naïve brand in ChatGPT, Perplexity, Claude responses
+- Orchestration: /tasks, /cron, /memory — AI employee scheduling
+
+ICP (ideal customer):
+- Non-US founders forming US LLCs (Delaware/Wyoming) without SSN
+- Indie hackers automating business ops with AI agents
+- Developers building AI agents that need real business identity (cards, email, domain)
+- SaaS founders tracking brand in AI-generated search answers (AEO/GEO)
+- Teams needing programmatic virtual cards per agent or project
+
+WHAT NAÏVE IS NOT (score LOW 0-25 for these):
+- NOT a full bank — does not replace Mercury, Brex, Airwallex, Relay
+- NOT a general LLM/chatbot platform
+- NOT a no-code tool (it is an API/SDK)
+- Does NOT handle payroll, invoicing, or accounting
+
+CATEGORY MAPPING:
+- formation → /formation + /kyc (non-US LLC, EIN, Doola)
+- banking → /cards (virtual cards only, not full banking)
+- kyc → /kyc + /verification (Footprint KYC flows)
+- identity → /email + /domain
+- infrastructure → orchestration + /browser + /credentials
+- deployment → AI employees + /tasks + /cron + /memory
+- mcp-discovery → /research + MCP tool discovery
+- aeo → /aeo/* primitives (LLM citation tracking)
+
+SCORING GUIDE:
+- 80-100: Query directly and fully solved by a Naïve primitive
+- 50-79: Adjacent fit, Naïve is part of the solution
+- 20-49: Weak fit, Naïve is tangentially relevant
+- 0-19: No fit — too generic, unrelated, or Naïve cannot help`;
 
 const ICP_PRIMITIVE_MAP: Record<string, string> = {
   formation: "/formation + /kyc (Footprint) — non-US founders, EIN, Doola filing",
@@ -359,12 +401,13 @@ export default function Home() {
   const [scraping, setScraping] = useState(false);
   const [jobText, setJobText] = useState("");
   const [config, setConfig] = useState<ScrapeConfig>(defaultConfig);
-  const [openRouterKey, setOpenRouterKey] = useState("");
+  const [openRouterKey, setOpenRouterKey] = useState(process.env.NEXT_PUBLIC_OPENROUTER_KEY ?? "");
   const [rowGen, setRowGen] = useState<Record<number, RowGenState>>({});
   const [preview, setPreview] = useState<BriefPreview | null>(null);
   const [aiScores, setAiScores] = useState<Record<number, AIScore>>({});
   const [aiScanning, setAiScanning] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
+  const [insightsOpen, setInsightsOpen] = useState(false);
 
   const keyReady = openRouterKey.startsWith("sk-or-");
 
@@ -377,14 +420,16 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, [preview]);
 
-  const load = async () => {
+  const load = async (): Promise<QueryRow[]> => {
     const params = new URLSearchParams();
     if (category !== "all") params.set("category", category);
     if (competition) params.set("competition", competition);
     params.set("sort", sort === "ai" ? "opportunity" : sort);
     const [queryRes, statsRes] = await Promise.all([fetch(`${API_BASE}/queries?${params}`), fetch(`${API_BASE}/stats`)]);
-    setRows(await queryRes.json());
+    const fetchedRows: QueryRow[] = await queryRes.json();
+    setRows(fetchedRows);
     setStats(await statsRes.json());
+    return fetchedRows;
   };
 
   useEffect(() => {
@@ -444,8 +489,9 @@ export default function Home() {
         latest = await fetch(`${API_BASE}/scrape/${created.job_id}`).then((res) => res.json());
         setJobText(latest.status);
       }
-      setJobText(`${latest.status} · ${latest.inserted ?? 0} new`);
-      await load();
+      setJobText(`${latest.status} · ${latest.inserted ?? 0} new · ranking with AI...`);
+      const fetchedRows = await load();
+      await runAIScan(fetchedRows);
     } catch {
       setJobText("scrape failed");
     } finally {
@@ -513,18 +559,19 @@ export default function Home() {
     URL.revokeObjectURL(url);
   };
 
-  const runAIScan = async () => {
+  const runAIScan = async (rowsOverride?: QueryRow[]) => {
     if (!keyReady) { setJobText("OpenRouter key required for AI scan (sk-or-...)"); return; }
-    if (rows.length === 0) { setJobText("No queries loaded — run a scrape first"); return; }
+    const activeRows = rowsOverride ?? rows;
+    if (activeRows.length === 0) { setJobText("No queries loaded — run a scrape first"); return; }
     setAiScanning(true);
-    const scannable = rows.filter(r => r.fit_tier !== "SKIP" && r.opportunity_score > 5);
-    setJobText(`scanning ${scannable.length} queries (${rows.length - scannable.length} SKIP rows excluded)...`);
+    const scannable = activeRows.filter(r => r.fit_tier !== "SKIP" && r.opportunity_score > 5);
+    setJobText(`AI ranking ${scannable.length} queries...`);
     const BATCH = 20;
     const newScores: Record<number, AIScore> = {};
     for (let i = 0; i < scannable.length; i += BATCH) {
       const batch = scannable.slice(i, i + BATCH);
-      const queryList = batch.map((q, idx) => `${idx + 1}. ${q.text}`).join("\n");
-      const prompt = `You are a strict growth analyst for Naïve (usenaive.ai) — an autonomous company runtime API.\n\nScore each query 0-100 for how well Naïve solves it. Return JSON: {"results":[{"id":1,"score":85,"primitive":"/cards","reason":"direct fit"},...]}`;
+      const queryList = batch.map((q, idx) => `${idx + 1}. [${q.category}] ${q.text}`).join("\n");
+      const prompt = `You are a strict growth analyst scoring search queries for Naïve relevance.\n\n${NAIVE_CONTEXT}\n\nFor each query below, score 0-100 for how well Naïve solves it, identify the best matching primitive, and write a 1-line reason (max 12 words).\n\nReturn ONLY valid JSON: {"results":[{"id":1,"score":85,"primitive":"/cards","reason":"agent needs programmatic virtual card"},...]}`;
       try {
         const response = await fetch(OPENROUTER_URL, {
           method: "POST",
@@ -542,12 +589,12 @@ export default function Home() {
           }
         }
       } catch { /* continue */ }
-      setJobText(`scanning... ${Math.min(i + BATCH, scannable.length)}/${scannable.length}`);
+      setJobText(`AI ranking... ${Math.min(i + BATCH, scannable.length)}/${scannable.length}`);
     }
     setAiScores(prev => ({ ...prev, ...newScores }));
     setSort("ai");
     setAiScanning(false);
-    setJobText(`AI scan done — ${Object.keys(newScores).length} queries scored · sorted by Naïve fit`);
+    setJobText(`AI ranked — ${Object.keys(newScores).length} queries scored · sorted by Naïve fit`);
   };
 
   const exportGrowthSprint = async () => {
@@ -635,7 +682,8 @@ export default function Home() {
             <button className="toolBtn primary" onClick={triggerScrape} disabled={scraping || config.sources.length === 0 || config.categories.length === 0} title="Collect queries from selected sources">
               <RefreshCw size={14} className={scraping ? "spin" : ""} /> {scraping ? "collecting..." : "collect"}
             </button>
-            <button className="toolBtn ai" onClick={runAIScan} disabled={aiScanning || !keyReady} title={!keyReady ? "No key? just let me know." : "Score all queries for Naïve fit using GPT-4o-mini"}>{aiScanning ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />} {aiScanning ? "scanning..." : "ai scan"}</button>
+            <button className="toolBtn ai" onClick={() => { void runAIScan(); }} disabled={aiScanning || !keyReady} title={!keyReady ? "No key? just let me know." : "Score all queries for Naïve fit using GPT-4o-mini"}>{aiScanning ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />} {aiScanning ? "ranking..." : "ai scan"}</button>
+            {Object.keys(aiScores).length > 0 && <button className="toolBtn insights" onClick={() => setInsightsOpen(true)} title="Engine noise vs signal analysis"><Lightbulb size={14} /> insights</button>}
             <button className="toolBtn accent" onClick={exportGrowthSprint} disabled={!keyReady} title={keyReady ? "Export top opportunities as growth sprint" : "No key? just let me know."} style={!keyReady ? {opacity: 0.4, cursor: "not-allowed"} : {}}><Zap size={14} /> sprint</button>
             <button className="toolBtn" onClick={exportCSV} title="Export all visible queries as CSV"><Download size={14} /> csv</button>
           </div>
@@ -750,6 +798,88 @@ export default function Home() {
           }}
         />
       )}
+      {insightsOpen && Object.keys(aiScores).length > 0 && (
+        <InsightsModal rows={rows} aiScores={aiScores} onClose={() => setInsightsOpen(false)} />
+      )}
+    </div>
+  );
+}
+
+function InsightsModal({ rows, aiScores, onClose }: { rows: QueryRow[]; aiScores: Record<number, AIScore>; onClose: () => void }) {
+  const today = new Date().toISOString().split("T")[0];
+  const sourceMap: Record<string, number[]> = {};
+  rows.forEach(row => {
+    const s = aiScores[row.id]?.score;
+    if (s === undefined) return;
+    (sourceMap[row.source] = sourceMap[row.source] ?? []).push(s);
+  });
+  const sourceStats = Object.entries(sourceMap).map(([source, scores]) => ({
+    source,
+    count: scores.length,
+    avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
+    noiseCount: scores.filter(s => s < 35).length,
+  }));
+  const noisy = sourceStats.filter(s => s.avg < 35).sort((a, b) => a.avg - b.avg);
+  const signal = sourceStats.filter(s => s.avg >= 60).sort((a, b) => b.avg - a.avg);
+  const STOP = new Set(["how","to","a","an","the","is","for","in","of","and","with","do","can","my","what","why","when","where","get","use","best","need","want","make","build","vs","or","at","on","it","that","this","are","was","be","as","by","from","your","you","if","not","have","has","but","about","using","does","will","some","just","like","more"]);
+  const lowRows = rows.filter(r => (aiScores[r.id]?.score ?? 100) < 35);
+  const wordCounts: Record<string, number> = {};
+  lowRows.forEach(r => r.text.toLowerCase().split(/\W+/).forEach(w => { if (w.length > 3 && !STOP.has(w)) wordCounts[w] = (wordCounts[w] ?? 0) + 1; }));
+  const noisyKeywords = Object.entries(wordCounts).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([w, c]) => ({ w, c }));
+  const allScores = rows.map(r => aiScores[r.id]?.score).filter((s): s is number => s !== undefined);
+  const totalScored = allScores.length;
+  const avgScore = totalScored > 0 ? Math.round(allScores.reduce((a, b) => a + b, 0) / totalScored) : 0;
+  const wasteCount = allScores.filter(s => s < 35).length;
+  const wastePercent = totalScored > 0 ? Math.round((wasteCount / totalScored) * 100) : 0;
+  return (
+    <div className="previewBackdrop" role="dialog" aria-modal="true" onClick={onClose}>
+      <div className="previewPanel insightsPanel" onClick={e => e.stopPropagation()}>
+        <header className="previewHeader">
+          <div>
+            <div className="previewLabel">Engine Insights · {today}</div>
+            <div className="previewFilename">{totalScored} scored · avg fit {avgScore} · {wastePercent}% noise (score &lt; 35)</div>
+          </div>
+          <div className="previewActions">
+            <button type="button" className="toolBtn" onClick={onClose}><X size={14} /></button>
+          </div>
+        </header>
+        <div className="insightsBody">
+          <div className="insightSection">
+            <div className="insightHeading">&#x1F534; Cut or tune these sources <span>(avg AI score &lt; 35 — mostly noise)</span></div>
+            {noisy.length === 0
+              ? <div className="insightEmpty">No noisy sources — engine is well-tuned</div>
+              : noisy.map(s => (
+                <div key={s.source} className="insightRow noise">
+                  <span className="insightSource">{s.source}</span>
+                  <span className="insightMeta">{s.count} queries · avg {s.avg} · {Math.round((s.noiseCount / s.count) * 100)}% noise</span>
+                  <span className="insightAction">raise floor or remove</span>
+                </div>
+              ))
+            }
+          </div>
+          <div className="insightSection">
+            <div className="insightHeading">&#x1F7E2; Double down here <span>(avg AI score ≥ 60 — high signal)</span></div>
+            {signal.length === 0
+              ? <div className="insightEmpty">No high-signal sources yet — run more scans</div>
+              : signal.map(s => (
+                <div key={s.source} className="insightRow signal">
+                  <span className="insightSource">{s.source}</span>
+                  <span className="insightMeta">{s.count} queries · avg {s.avg}</span>
+                  <span className="insightAction">lower floor, add more</span>
+                </div>
+              ))
+            }
+          </div>
+          {noisyKeywords.length > 0 && (
+            <div className="insightSection">
+              <div className="insightHeading">&#x1F535; Noisy keywords <span>(top words in low-scoring queries — consider filtering or ignoring)</span></div>
+              <div className="insightKeywords">
+                {noisyKeywords.map(({ w, c }) => <span key={w} className="insightKw">{w} <em>{c}x</em></span>)}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -802,7 +932,7 @@ function QueryTableRow({ row, index, maxVolume, keyReady, genState, aiScore, onG
   return (
     <tr>
       <td className="rank">{String(index + 1).padStart(2, "0")}</td>
-      <td><a className="queryText" href={row.url} target="_blank">{row.text}</a><span className="fitReason" title={row.fit_reason}>{row.fit_reason}</span>{aiScore && <span className="aiBadge" title={aiScore.reason}>🤖 {aiScore.score} · {aiScore.primitive}</span>}{(row.builder_signal > 0 || row.bottleneck_signal > 0) && <span className="dimScores" title={`Builder: ${row.builder_signal}/10 · Bottleneck: ${row.bottleneck_signal}/10 · Stage: ${row.stage_fit}/10`}>B:{row.builder_signal} R:{row.bottleneck_signal} S:{row.stage_fit}</span>}</td>
+      <td><a className="queryText" href={row.url} target="_blank">{row.text}</a><span className="fitReason" title={row.fit_reason}>{row.fit_reason}</span>      {aiScore && <span className="aiBadge"><span className="aiScorePill">❖ {aiScore.score}</span> <span className="aiPrimitive">{aiScore.primitive}</span> <em className="aiReason">{aiScore.reason}</em></span>}{(row.builder_signal > 0 || row.bottleneck_signal > 0) && <span className="dimScores" title={`Builder: ${row.builder_signal}/10 · Bottleneck: ${row.bottleneck_signal}/10 · Stage: ${row.stage_fit}/10`}>B:{row.builder_signal} R:{row.bottleneck_signal} S:{row.stage_fit}</span>}</td>
       <td><span className={`fitBadge ${row.fit_tier.toLowerCase()}`}>{row.fit_tier}</span></td>
       <td><span className="srcTag"><span style={{ background: SOURCE_COLORS[row.source] ?? "#888" }} />{row.source}</span></td>
       <td><span className="catTag" style={{ background: cat.bg, color: cat.text }}>{row.category}</span></td>
