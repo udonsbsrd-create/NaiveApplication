@@ -177,32 +177,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Findings Teaser */}
-      <section style={{ maxWidth: 880, margin: "0 auto", padding: "0 28px 72px" }}>
-        <Link href="/findings" style={{ textDecoration: "none", display: "block" }}>
-          <div style={{ border: "1px solid var(--border2)", borderRadius: 10, padding: "32px 36px", background: "var(--bg2)", display: "grid", gridTemplateColumns: "1fr auto", gap: 32, alignItems: "center", transition: "border-color 0.15s", cursor: "pointer" }}>
-            <div>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--green)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 12 }}>Signal Board · Deep Research</div>
-              <h3 style={{ fontFamily: "var(--mono)", fontSize: "20px", fontWeight: 600, marginBottom: 10, letterSpacing: "-0.01em" }}>Look what it found.</h3>
-              <p style={{ color: "var(--text3)", fontSize: "13px", lineHeight: 1.75, maxWidth: 480, margin: 0 }}>
-                19 real threads from Reddit and Hacker News. Builders blocked by missing infrastructure. The engine scored each one — by urgency, by stage, by exactly what Naïve solves.
-              </p>
-              <div style={{ display: "flex", gap: 16, marginTop: 18, flexWrap: "wrap" }}>
-                {[["19", "threads found"], ["9.0", "avg signal score"], ["7", "primitives hit"], ["3", "content gaps"]].map(([val, label]) => (
-                  <div key={label}>
-                    <span style={{ fontFamily: "var(--mono)", fontSize: "16px", fontWeight: 600, color: "var(--green)" }}>{val}</span>
-                    <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)", marginLeft: 6 }}>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ textAlign: "right", flexShrink: 0 }}>
-              <div style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--green)", border: "1px solid var(--green)", borderRadius: 6, padding: "10px 20px", whiteSpace: "nowrap" }}>Explore findings →</div>
-            </div>
-          </div>
-        </Link>
-      </section>
-
       {/* Engine */}
       <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--blue)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
@@ -215,6 +189,50 @@ export default function Home() {
           A full-stack SEO/GEO intelligence system that finds what Naïve should publish, where it should comment, and how LLMs currently answer queries in the problem space.
           Built to run weekly — not as a one-off.
         </p>
+
+        {/* What it found card */}
+        <Link href="/findings" style={{ textDecoration: "none", display: "block", marginBottom: 16 }}>
+          <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: "28px 32px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center", cursor: "pointer" }}>
+            <div>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--green)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 14 }}>Signal Board · Deep Research</div>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "17px", fontWeight: 600, lineHeight: 1.45, marginBottom: 12 }}>Every builder building an autonomous agent hit the same 3 walls.</div>
+              <p style={{ color: "var(--text3)", fontSize: "12px", lineHeight: 1.8, marginBottom: 18 }}>
+                Cards. Email. Identity. The engine found it across 22 threads — same pain, different codebases, all rebuilt from scratch.
+              </p>
+              <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", borderBottom: "1px solid var(--green)" }}>See what it found →</span>
+            </div>
+            <div>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>Threads by primitive</div>
+              {[
+                { name: "Cards", count: 7, color: "#2d7a4f" },
+                { name: "Email", count: 6, color: "#2563a8" },
+                { name: "Orchestration", count: 3, color: "#b91c1c" },
+                { name: "AEO", count: 3, color: "#9a6800" },
+                { name: "Formation", count: 3, color: "#6d28d9" },
+                { name: "KYC", count: 2, color: "#b45309" },
+              ].map((p) => (
+                <div key={p.name} style={{ display: "grid", gridTemplateColumns: "80px 1fr 20px", gap: 8, alignItems: "center", marginBottom: 7 }}>
+                  <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)" }}>{p.name}</span>
+                  <div style={{ height: 6, background: "var(--bg3)", borderRadius: 3, overflow: "hidden" }}>
+                    <div style={{ width: `${(p.count / 7) * 100}%`, height: "100%", background: p.color, borderRadius: 3 }} />
+                  </div>
+                  <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: p.color }}>{p.count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Link>
+
+        {/* Engine live card */}
+        <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: "24px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 32 }}>
+          <div>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text)", marginBottom: 6 }}>The engine is live. You can run it yourself.</div>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>Open the interactive dashboard — scrape, score, and export content gaps in real time.</div>
+          </div>
+          <Link href="/engine" style={{ fontFamily: "var(--mono)", fontSize: "12px", fontWeight: 600, padding: "10px 20px", background: "#4f46e5", color: "#fff", borderRadius: 5, textDecoration: "none", whiteSpace: "nowrap", letterSpacing: "0.02em" }}>
+            Open the engine →
+          </Link>
+        </div>
 
         {/* Architecture card */}
         <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: 32, marginBottom: 32 }}>
@@ -259,29 +277,6 @@ export default function Home() {
           ))}
         </div>
 
-        <div style={{ background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: "24px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <div>
-            <div style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text)", marginBottom: 6 }}>The engine is live. You can run it yourself.</div>
-            <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>Open the interactive dashboard — scrape, score, and export content gaps in real time.</div>
-          </div>
-          <Link
-            href="/engine"
-            style={{
-              fontFamily: "var(--mono)",
-              fontSize: "12px",
-              fontWeight: 600,
-              padding: "10px 20px",
-              background: "#4f46e5",
-              color: "#fff",
-              borderRadius: 5,
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              letterSpacing: "0.02em",
-            }}
-          >
-            Open the engine →
-          </Link>
-        </div>
       </section>
 
       {/* Opportunities */}
