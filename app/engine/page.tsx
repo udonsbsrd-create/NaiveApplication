@@ -173,45 +173,69 @@ GUARDRAILS (naive-context.md):
 
 const NAIVE_CONTEXT = `ABOUT NAÏVE (usenaive.ai):
 Naïve is an autonomous company runtime API — infrastructure for AI agents to operate as real businesses.
+Connect via REST API, MCP server (/mcp/sse), or CLI (npm install -g @usenaive-sdk/cli).
 
-PRIMITIVES (what it actually does):
-- /formation: LLC filing for non-US founders, no SSN needed (via Doola), EIN obtainment
-- /kyc + /verification: Footprint-hosted identity verification flows
-- /cards: Stripe Issuing virtual cards with per-agent spend limits (NOT a full bank — pair with Mercury/Relay for full banking)
-- /email + /domain: business inboxes and domains for agents/companies
-- /browser + /credentials: headless browser automation, credential vault
-- /research: web research API for agents
-- /aeo/llm-responses, /aeo/llm-mentions, /aeo/ai-keywords: Answer Engine Optimization — track Naïve brand in ChatGPT, Perplexity, Claude responses
-- Orchestration: /tasks, /cron, /memory — AI employee scheduling
+FULL PRIMITIVE SET (what it actually does):
+- /formation: LLC filing for non-US founders, no SSN needed (via Doola), $249, EIN obtainment
+- /kyc + /verification: Footprint-hosted programmatic identity verification flows
+- /cards: Stripe Issuing virtual cards — per-agent spend limits, assign/top-up/cancel via API (NOT a full bank)
+- /email + /domain: business inboxes and auto-provisioned domains for agents; purchase domains programmatically
+- /apps: deploy full Vercel-backed web applications via API — "ship apps from a single prompt"
+- /search: web search primitive for agents
+- /research: deep web research + citation synthesis for agents
+- /images: AI image generation (FLUX models), stock photo search
+- /video: AI video generation (Kling etc.), async jobs
+- /seo: keyword research, backlinks, competitor analysis via API
+- /social: post to 10+ social platforms programmatically — autonomous content publishing
+- /ecommerce: Google Shopping + Amazon product/price data intelligence
+- /business-data: Google Reviews, Trustpilot, TripAdvisor, Social Media scraping
+- /app-data: Google Play + App Store data
+- /aeo/*: Answer Engine Optimization — track brand citations in ChatGPT, Perplexity, Claude; LLM keywords, mention scraping
+- Orchestration: CEO agent (naive ceo), AI employees, kanban tasks, objectives, cron jobs, memory
+
+PROBLEM LANGUAGE (how people describe these problems before knowing Naïve):
+- Cards: "give my agent a credit card", "agent needs to make purchases", "bot needs a payment method", "autonomous spending"
+- Formation: "my agent needs a legal entity", "incorporate programmatically", "LLC for my bot", "no SSN US company"
+- Orchestration: "spawn sub-agents", "multi-agent task delegation", "autonomous workforce", "AI employees", "agentic pipeline"
+- Email: "agent that sends email", "agent inbox", "bot needs an email address", "autonomous outreach"
+- KYC: "programmatic KYC", "identity verification API", "verify founders via API"
+- AEO: "get cited by ChatGPT", "appear in Perplexity", "LLM visibility", "how do I show up in AI answers"
+- Domains: "agent needs a domain", "auto-provision domain", "programmatic DNS"
+- Social/SEO: "agent posts to social media", "autonomous content publishing", "agent manages SEO"
+- Apps: "ship app from a prompt", "deploy web app via API", "agent builds and deploys software"
 
 ICP (ideal customer):
+- Developers building autonomous agents that need real-world infrastructure (cards, email, domain, legal entity)
 - Non-US founders forming US LLCs (Delaware/Wyoming) without SSN
-- Indie hackers automating business ops with AI agents
-- Developers building AI agents that need real business identity (cards, email, domain)
-- SaaS founders tracking brand in AI-generated search answers (AEO/GEO)
-- Teams needing programmatic virtual cards per agent or project
+- Indie hackers automating business ops end-to-end with AI agents
+- Teams building autonomous AI companies/employees (CEO agent, tasks, cron)
+- SaaS founders tracking brand visibility in ChatGPT/Perplexity/Claude (AEO/GEO)
+- Builders wanting to ship web apps by describing them to an AI (/apps)
+- Developers needing programmatic social publishing, SEO, or e-commerce data pipelines
 
 WHAT NAÏVE IS NOT (score LOW 0-25 for these):
 - NOT a full bank — does not replace Mercury, Brex, Airwallex, Relay
-- NOT a general LLM/chatbot platform
-- NOT a no-code tool (it is an API/SDK)
+- NOT a general LLM/chatbot platform or AI wrapper
+- NOT a no-code tool (it is an API/SDK for developers)
 - Does NOT handle payroll, invoicing, or accounting
 
 CATEGORY MAPPING:
-- formation → /formation + /kyc (non-US LLC, EIN, Doola)
-- banking → /cards (virtual cards only, not full banking)
-- kyc → /kyc + /verification (Footprint KYC flows)
+- formation → /formation + /kyc
+- banking → /cards (virtual cards, not full banking)
+- kyc → /kyc + /verification
 - identity → /email + /domain
-- infrastructure → orchestration + /browser + /credentials
-- deployment → AI employees + /tasks + /cron + /memory
-- mcp-discovery → /research + MCP tool discovery
-- aeo → /aeo/* primitives (LLM citation tracking)
+- infrastructure → orchestration + /apps + /research
+- deployment → CEO agent + AI employees + /tasks + /cron + /memory
+- mcp-discovery → /research + MCP server
+- aeo → /aeo/* (LLM citation tracking)
+- content → /seo + /social + /images + /video
+- data → /ecommerce + /business-data + /app-data
 
 SCORING GUIDE:
 - 80-100: Query directly and fully solved by a Naïve primitive
-- 50-79: Adjacent fit, Naïve is part of the solution
-- 20-49: Weak fit, Naïve is tangentially relevant
-- 0-19: No fit — too generic, unrelated, or Naïve cannot help`;
+- 60-79: Strong adjacent fit, Naïve is a primary part of the solution
+- 30-59: Partial fit, Naïve solves one dimension of the problem
+- 0-29: No fit — too generic, unrelated, or Naïve cannot help`;
 
 const ICP_PRIMITIVE_MAP: Record<string, string> = {
   formation: "/formation + /kyc (Footprint) — non-US founders, EIN, Doola filing",
