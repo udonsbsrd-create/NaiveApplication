@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import SignalBoard from "./signal-board";
 
 export const metadata: Metadata = {
   title: "Naïve Growth Engineer Application — 48h Sprint",
@@ -178,8 +177,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Signal Board */}
-      <SignalBoard />
+      {/* Findings Teaser */}
+      <section style={{ maxWidth: 880, margin: "0 auto", padding: "0 28px 72px" }}>
+        <Link href="/findings" style={{ textDecoration: "none", display: "block" }}>
+          <div style={{ border: "1px solid var(--border2)", borderRadius: 10, padding: "32px 36px", background: "var(--bg2)", display: "grid", gridTemplateColumns: "1fr auto", gap: 32, alignItems: "center", transition: "border-color 0.15s", cursor: "pointer" }}>
+            <div>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--green)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 12 }}>Signal Board · Deep Research</div>
+              <h3 style={{ fontFamily: "var(--mono)", fontSize: "20px", fontWeight: 600, marginBottom: 10, letterSpacing: "-0.01em" }}>Look what it found.</h3>
+              <p style={{ color: "var(--text3)", fontSize: "13px", lineHeight: 1.75, maxWidth: 480, margin: 0 }}>
+                19 real threads from Reddit and Hacker News. Builders blocked by missing infrastructure. The engine scored each one — by urgency, by stage, by exactly what Naïve solves.
+              </p>
+              <div style={{ display: "flex", gap: 16, marginTop: 18, flexWrap: "wrap" }}>
+                {[["19", "threads found"], ["9.0", "avg signal score"], ["7", "primitives hit"], ["3", "content gaps"]].map(([val, label]) => (
+                  <div key={label}>
+                    <span style={{ fontFamily: "var(--mono)", fontSize: "16px", fontWeight: 600, color: "var(--green)" }}>{val}</span>
+                    <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)", marginLeft: 6 }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ textAlign: "right", flexShrink: 0 }}>
+              <div style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--green)", border: "1px solid var(--green)", borderRadius: 6, padding: "10px 20px", whiteSpace: "nowrap" }}>Explore findings →</div>
+            </div>
+          </div>
+        </Link>
+      </section>
 
       {/* Engine */}
       <section style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
