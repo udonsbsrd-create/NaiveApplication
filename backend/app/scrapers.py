@@ -271,7 +271,7 @@ def scrape_reddit(options: ScrapeOptions, keywords: list[str], cutoff: int) -> l
         subreddit = REDDIT_SOURCES[source]
         response = requests.get(
             f"https://www.reddit.com/r/{subreddit}/search.json",
-            params={"q": keyword, "restrict_sr": 1, "sort": "relevance", "limit": 20, "t": "year"},
+            params={"q": keyword, "restrict_sr": 1, "sort": "top", "limit": 25, "t": "year"},
             headers=HEADERS,
             timeout=8,
         )
@@ -402,11 +402,19 @@ def scrape_all(options: ScrapeOptions | None = None) -> tuple[list[dict], list[s
         unique_items.append(item)
     active_source_count = max(1, len([source for source in options.sources if source in {item.source for item in unique_items}]))
     per_source_cap = max(5, options.max_results // active_source_count)
-    balanced_items: list[ScrapedItem] = []
+    by_source: dict[str, list[ScrapedItem]] = {}
     for source in options.sources:
-        source_items = [item for item in unique_items if item.source == source]
-        source_items.sort(key=lambda item: item.activity_score, reverse=True)
-        balanced_items.extend(source_items[:per_source_cap])
+        items = [item for item in unique_items if item.source == source]
+        items.sort(key=lambda item: item.activity_score, reverse=True)
+        by_source[source] = items
+    balanced_items: list[ScrapedItem] = []
+    overflow: list[ScrapedItem] = []
+    for source, items in by_source.items():
+        balanced_items.extend(items[:per_source_cap])
+        overflow.extend(items[per_source_cap:])
+    if len(balanced_items) < options.max_results and overflow:
+        overflow.sort(key=lambda item: (relevance_score(item.text), item.activity_score), reverse=True)
+        balanced_items.extend(overflow[: options.max_results - len(balanced_items)])
     balanced_items.sort(
         key=lambda item: (relevance_score(item.text), item.activity_score),
         reverse=True,
