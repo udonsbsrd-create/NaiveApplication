@@ -631,7 +631,7 @@ export default function Home() {
               />
               <span className={`keyStatus ${keyReady ? "ready" : ""}`}>{keyReady ? "✓ key ready" : "sk-or-..."}</span>
             </label>
-            {!keyReady && <span style={{fontFamily:"var(--mono)",fontSize:"10px",color:"var(--text3)",whiteSpace:"nowrap"}}>No key? <a href="https://linkedin.com/in/prajeesh" target="_blank" rel="noopener" style={{color:"var(--indigo)"}}>reach out ↗</a></span>}
+            {!keyReady && <span style={{fontFamily:"var(--mono)",fontSize:"10px",color:"var(--text3)",whiteSpace:"nowrap"}}>No key? <a href="mailto:prajeeshmeethale@gmail.com?subject=OpenRouter Key Request" style={{color:"var(--indigo)"}}>email me ↗</a></span>}
             <label className="searchWrap"><Search size={14} className="searchIcon" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="filter queries..." /></label>
             <select value={sort} onChange={(event) => setSort(event.target.value)}>
               <option value="opportunity">Sort: Opportunity</option><option value="volume">Sort: Volume</option><option value="competition">Sort: Competition</option><option value="alpha">Sort: A–Z</option>
