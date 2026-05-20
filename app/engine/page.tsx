@@ -616,7 +616,7 @@ export default function Home() {
             <div className="subtitle">discover what to publish · score fit · generate briefs{visible.length > 0 ? ` · ${visible.length} queries loaded` : ""}</div>
           </div>
           <div className="topbarRight">
-            <label className="apiKeyWrap">
+            <label className="apiKeyWrap" title={!keyReady ? "No key? just let me know." : undefined}>
               <input
                 type="password"
                 value={openRouterKey}
@@ -627,7 +627,6 @@ export default function Home() {
               />
               <span className={`keyStatus ${keyReady ? "ready" : ""}`}>{keyReady ? "✓ key ready" : "sk-or-..."}</span>
             </label>
-            {!keyReady && <span style={{fontFamily:"var(--mono)",fontSize:"10px",color:"var(--text3)",whiteSpace:"nowrap"}}>No key? just let me know.</span>}
             <label className="searchWrap"><Search size={14} className="searchIcon" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="filter queries..." /></label>
             <select value={sort} onChange={(event) => setSort(event.target.value)}>
               <option value="opportunity">Sort: Opportunity</option><option value="volume">Sort: Volume</option><option value="competition">Sort: Competition</option><option value="alpha">Sort: A–Z</option>
@@ -636,8 +635,8 @@ export default function Home() {
             <button className="toolBtn primary" onClick={triggerScrape} disabled={scraping || config.sources.length === 0 || config.categories.length === 0} title="Collect queries from selected sources">
               <RefreshCw size={14} className={scraping ? "spin" : ""} /> {scraping ? "collecting..." : "collect"}
             </button>
-            <button className="toolBtn ai" onClick={runAIScan} disabled={aiScanning || !keyReady} title="Score all queries for Naïve fit using GPT-4o-mini">{aiScanning ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />} {aiScanning ? "scanning..." : "ai scan"}</button>
-            <button className="toolBtn accent" onClick={exportGrowthSprint} disabled={!keyReady} title={keyReady ? "Export top opportunities as growth sprint" : "OpenRouter key required for sprint"} style={!keyReady ? {opacity: 0.4, cursor: "not-allowed"} : {}}><Zap size={14} /> sprint</button>
+            <button className="toolBtn ai" onClick={runAIScan} disabled={aiScanning || !keyReady} title={!keyReady ? "No key? just let me know." : "Score all queries for Naïve fit using GPT-4o-mini"}>{aiScanning ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />} {aiScanning ? "scanning..." : "ai scan"}</button>
+            <button className="toolBtn accent" onClick={exportGrowthSprint} disabled={!keyReady} title={keyReady ? "Export top opportunities as growth sprint" : "No key? just let me know."} style={!keyReady ? {opacity: 0.4, cursor: "not-allowed"} : {}}><Zap size={14} /> sprint</button>
             <button className="toolBtn" onClick={exportCSV} title="Export all visible queries as CSV"><Download size={14} /> csv</button>
           </div>
         </header>
