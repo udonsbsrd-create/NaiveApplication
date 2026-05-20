@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f9f9f7;
-  --bg2: #f3f3f0;
-  --bg3: #eceae6;
-  --border: #deddd8;
-  --border2: #d0cfc9;
+  --bg: #faf6ed;
+  --bg2: #f4ede0;
+  --bg3: #ede3d0;
+  --border: #ddd3be;
+  --border2: #cdc2ac;
   --text: #1a1a18;
   --text2: #52524a;
   --text3: #9e9d96;

@@ -2,7 +2,7 @@
 
 .engine-shell *, .engine-shell *::before, .engine-shell *::after { box-sizing: border-box; margin: 0; padding: 0; }
 .engine-shell {
-  --bg: #f9f9f7; --bg2: #f3f3f0; --bg3: #eceae6; --border: #deddd8; --border2: #d0cfc9;
+  --bg: #faf6ed; --bg2: #f4ede0; --bg3: #ede3d0; --border: #ddd3be; --border2: #cdc2ac;
   --text: #1a1a18; --text2: #52524a; --text3: #9e9d96;
   --indigo: #4f46e5; --indigo-dim: rgba(79,70,229,.07); --indigo-mid: rgba(79,70,229,.14);
   --green: #16a34a; --green-dim: rgba(22,163,74,.07); --green-mid: rgba(22,163,74,.14);
