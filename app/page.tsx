@@ -349,6 +349,27 @@ export default function Home() {
               </p>
             </div>
           </div>
+          <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20, marginBottom: 20 }}>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 14 }}>Past Work</div>
+            <a href="https://www.meethale.com/work/signal-led-outbound" target="_blank" rel="noopener" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, textDecoration: "none", flexWrap: "wrap" }}>
+              <div>
+                <div style={{ fontFamily: "var(--mono)", fontSize: "12px", fontWeight: 600, color: "var(--text)", marginBottom: 5 }}>Signal-Led Outbound Engine</div>
+                <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)", lineHeight: 1.7 }}>Python scrapers + Claude 3.5 + Clay — replaced firmographic targeting with job-board intent signals</div>
+              </div>
+              <div style={{ display: "flex", gap: 16, flexShrink: 0, alignItems: "center", flexWrap: "wrap" }}>
+                {[
+                  { label: "Reply rate", val: "0.4% → 4.2%" },
+                  { label: "CPL", val: "−70.8%" },
+                ].map((m) => (
+                  <div key={m.label} style={{ textAlign: "right" }}>
+                    <div style={{ fontFamily: "var(--mono)", fontSize: "13px", fontWeight: 600, color: "var(--green)" }}>{m.val}</div>
+                    <div style={{ fontFamily: "var(--mono)", fontSize: "9px", color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{m.label}</div>
+                  </div>
+                ))}
+                <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>Case study ↗</span>
+              </div>
+            </a>
+          </div>
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: 20, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {["Growth Engineering", "SEO / AEO", "Full-Stack", "Content Systems"].map((tag) => (
