@@ -346,7 +346,7 @@ export default function FindingsPage() {
             {featured.map((t, i) => {
               const col = P_COLORS[t.primitive];
               return (
-                <a key={i} href={t.url} target="_blank" rel="noopener" style={{ textDecoration: "none", display: "flex", flexDirection: "column", background: "var(--bg2)", border: `1px solid ${col}40`, borderRadius: 8, padding: 22, position: "relative", overflow: "hidden" }}>
+                <div key={i} style={{ display: "flex", flexDirection: "column", background: "var(--bg2)", border: `1px solid ${col}40`, borderRadius: 8, padding: 22, position: "relative", overflow: "hidden" }}>
                   <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: col, borderRadius: "8px 8px 0 0" }} />
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
                     <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)", background: "var(--bg3)", padding: "2px 7px", borderRadius: 3 }}>{t.source}</span>
@@ -365,7 +365,7 @@ export default function FindingsPage() {
                       ))}
                     </div>
                   </div>
-                </a>
+                </div>
               );
             })}
           </div>
@@ -389,7 +389,7 @@ export default function FindingsPage() {
             {rest.map((t, i) => {
               const col = P_COLORS[t.primitive];
               return (
-                <a key={i} href={t.url} target="_blank" rel="noopener" style={{ textDecoration: "none", display: "flex", flexDirection: "column", background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: 18 }}>
+                <div key={i} style={{ display: "flex", flexDirection: "column", background: "var(--bg2)", border: "1px solid var(--border2)", borderRadius: 8, padding: 18 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                     <span style={{ fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)", background: "var(--bg3)", padding: "2px 7px", borderRadius: 3 }}>{t.source}</span>
                     <span style={{ fontFamily: "var(--mono)", fontSize: "13px", fontWeight: 600, color: col }}>{t.score.toFixed(1)}</span>
@@ -407,7 +407,7 @@ export default function FindingsPage() {
                       ))}
                     </div>
                   </div>
-                </a>
+                </div>
               );
             })}
           </div>
