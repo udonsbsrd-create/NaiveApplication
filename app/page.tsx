@@ -59,8 +59,8 @@ export default function Home() {
             naïve <span style={{ color: "var(--text3)" }}>×</span> <span style={{ color: "var(--green)" }}>prajeesh</span>
           </span>
           <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
-            <a href="https://github.com/Prajeesh-Meethale/NaiveApplication" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text3)" }}>GitHub ↗</a>
-            <a href="https://linkedin.com/in/prajeesh" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text3)" }}>LinkedIn ↗</a>
+            <a href="https://github.com/Prajeesh-Meethale" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text3)" }}>GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/prajeesh-pm/" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text3)" }}>LinkedIn ↗</a>
           </div>
         </div>
       </nav>
@@ -347,8 +347,8 @@ export default function Home() {
               ))}
             </div>
             <div style={{ display: "flex", gap: 16 }}>
-              <a href="https://github.com/Prajeesh-Meethale/NaiveApplication" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", textDecoration: "none" }}>GitHub ↗</a>
-              <a href="https://linkedin.com/in/prajeesh" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", textDecoration: "none" }}>LinkedIn ↗</a>
+              <a href="https://github.com/Prajeesh-Meethale" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", textDecoration: "none" }}>GitHub ↗</a>
+              <a href="https://www.linkedin.com/in/prajeesh-pm/" target="_blank" rel="noopener" style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", textDecoration: "none" }}>LinkedIn ↗</a>
             </div>
           </div>
         </div>
@@ -361,9 +361,9 @@ export default function Home() {
             <div style={{ fontFamily: "var(--mono)", fontSize: "13px", color: "var(--text)", marginBottom: 6 }}>Built for Naïve · 48-hour growth sprint</div>
             <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>
               Engine at{" "}
-              <a href="https://github.com/Prajeesh-Meethale/NaiveApplication" target="_blank" rel="noopener" style={{ color: "var(--green)" }}>github.com/Prajeesh-Meethale ↗</a>
+              <a href="https://github.com/Prajeesh-Meethale" target="_blank" rel="noopener" style={{ color: "var(--green)" }}>github.com/Prajeesh-Meethale ↗</a>
               {"  ·  "}
-              <a href="https://linkedin.com/in/prajeesh" target="_blank" rel="noopener" style={{ color: "var(--green)" }}>linkedin.com/in/prajeesh ↗</a>
+              <a href="https://www.linkedin.com/in/prajeesh-pm/" target="_blank" rel="noopener" style={{ color: "var(--green)" }}>linkedin.com/in/prajeesh-pm ↗</a>
             </div>
           </div>
           <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>May 2026</div>
