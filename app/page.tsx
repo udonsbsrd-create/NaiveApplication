@@ -154,7 +154,7 @@ export default function Home() {
 
         <div style={{ borderLeft: "2px solid var(--amber)", paddingLeft: 18 }}>
           <p style={{ color: "var(--text3)", fontSize: "13px", lineHeight: 1.75 }}>
-            Ran through the flow myself — five times, different browsers, different states. Same result every time. The loop catches you right after email verification, which is the one moment you&rsquo;ve earned maximum user intent. Click confirm link, open the product, hit a login wall. That&rsquo;s the first impression.
+            Tested across Chrome, Firefox, and Safari. Reproducible every time. Not a fluke.
           </p>
         </div>
       </section>
