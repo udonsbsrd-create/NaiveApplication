@@ -74,10 +74,10 @@ export default function Home() {
         </div>
         <h1 style={{ fontFamily: "var(--mono)", fontSize: "clamp(26px, 5vw, 46px)", fontWeight: 600, lineHeight: 1.18, marginBottom: 24, letterSpacing: "-0.02em" }}>
           I found a bug, built an engine,<br />
-          and shipped three content pages.
+          and generated thirty content briefs.
         </h1>
         <p style={{ color: "var(--text2)", fontSize: "17px", maxWidth: 560, marginBottom: 36, lineHeight: 1.75 }}>
-          This is what a growth engineer ships before hearing back from a recruiter.
+          Cross-domain auth bug — fires on every new user, right after email verification. A query discovery engine that scores content gaps weekly across Reddit and HN. Thirty SEO briefs produced by the engine, each mapped to a real query with no existing answer.
         </p>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
