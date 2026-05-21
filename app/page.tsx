@@ -84,7 +84,7 @@ export default function Home() {
           {[
             { label: "Engine Built", c: "#3ecf78" },
             { label: "Bug Documented", c: "#e8a23a" },
-            { label: "3 Pages Shipped", c: "#4a9eff" },
+            { label: "30 Pages Generated", c: "#4a9eff" },
             { label: "Roadmap Written", c: "#a78bfa" },
           ].map((b) => (
             <span key={b.label} style={{ fontFamily: "var(--mono)", fontSize: "11px", padding: "5px 12px", border: `1px solid ${b.c}50`, borderRadius: 4, color: b.c, background: `${b.c}12` }}>
@@ -100,7 +100,7 @@ export default function Home() {
           {[
             { val: "47+", label: "Threads Scraped" },
             { val: "6", label: "Content Gaps" },
-            { val: "3", label: "Pages Shipped" },
+            { val: "30", label: "Pages Generated" },
             { val: "1", label: "Platform Bug" },
           ].map((s) => (
             <div key={s.label}>
@@ -288,11 +288,11 @@ export default function Home() {
           Content Assets
         </div>
         <h2 style={{ fontFamily: "var(--mono)", fontSize: "26px", fontWeight: 600, marginBottom: 14, letterSpacing: "-0.01em" }}>
-          Three pages ready to publish
+          30 briefs. 3 published. All engine output.
         </h2>
         <p style={{ color: "var(--text2)", marginBottom: 40, lineHeight: 1.8, maxWidth: 620 }}>
-          Written for real search intent found by the engine. Each post stays within Naïve's guardrails —
-          Naïve is not a bank, no invented pricing, SECONDARY-tier content keeps Naïve as a footnote rather than the main answer.
+          The engine scored 30 content opportunities across 5 primitives. Each one maps to a real search query with a gap.
+          Three are live below. The full pipeline is in Google Drive — briefs reviewed and ready to write.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
           {[
@@ -331,6 +331,11 @@ export default function Home() {
               </div>
             </Link>
           ))}
+        </div>
+
+        <div style={{ marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>27 more briefs available · cards · email · kyc · orchestration · aeo</span>
+          <a href="#" style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--blue)", textDecoration: "none" }}>Full pipeline (Google Drive) ↗</a>
         </div>
       </section>
 
