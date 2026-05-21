@@ -85,7 +85,7 @@ export default function Home() {
             { label: "Engine Built", c: "#3ecf78" },
             { label: "Bug Documented", c: "#e8a23a" },
             { label: "3 Pages Shipped", c: "#4a9eff" },
-            { label: "GEO Evals Ready", c: "#a78bfa" },
+            { label: "Roadmap Written", c: "#a78bfa" },
           ].map((b) => (
             <span key={b.label} style={{ fontFamily: "var(--mono)", fontSize: "11px", padding: "5px 12px", border: `1px solid ${b.c}50`, borderRadius: 4, color: b.c, background: `${b.c}12` }}>
               {b.label}
@@ -365,31 +365,6 @@ export default function Home() {
                 <span style={{ fontFamily: "var(--mono)", fontSize: "12px", color: "var(--green)" }}>Read →</span>
               </div>
             </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* GEO */}
-      <section id="geo" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "#a78bfa", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
-          GEO / AEO
-        </div>
-        <h2 style={{ fontFamily: "var(--mono)", fontSize: "26px", fontWeight: 600, marginBottom: 14, letterSpacing: "-0.01em" }}>
-          Are agents recommending Naïve?
-        </h2>
-        <p style={{ color: "var(--text2)", marginBottom: 40, lineHeight: 1.8, maxWidth: 620 }}>
-          GEO is in the job description for a reason. These 8 prompts test whether ChatGPT, Claude, and Perplexity cite Naïve — and where.
-          Run them, log positions, set a baseline. Then track movement weekly as content ships.
-        </p>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {GEO_PROMPTS.map((item, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "28px 1fr", gap: 20, padding: "16px 0", borderBottom: i < GEO_PROMPTS.length - 1 ? "1px solid var(--border)" : "none", alignItems: "start" }}>
-              <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)", paddingTop: 3 }}>{String(i + 1).padStart(2, "0")}</span>
-              <div>
-                <div style={{ fontSize: "14px", color: "var(--text)", marginBottom: 5 }}>&ldquo;{item.prompt}&rdquo;</div>
-                <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)" }}>{item.note}</div>
-              </div>
-            </div>
           ))}
         </div>
       </section>

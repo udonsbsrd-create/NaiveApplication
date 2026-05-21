@@ -7,7 +7,6 @@ const SECTIONS = [
   { id: "engine",  label: "Engine",     color: "var(--blue)"  },
   { id: "results", label: "Results",    color: "var(--green)" },
   { id: "blog",    label: "Blog",       color: "var(--blue)"  },
-  { id: "geo",     label: "GEO",        color: "#a78bfa"      },
   { id: "roadmap", label: "Roadmap",    color: "var(--amber)" },
 ];
 
