@@ -335,8 +335,14 @@ export default function Home() {
             <div>
               <div style={{ fontFamily: "var(--mono)", fontSize: "15px", fontWeight: 600, color: "var(--text)", marginBottom: 4 }}>Prajeesh Meethale</div>
               <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)", marginBottom: 18 }}>Growth Engineer</div>
+              <p style={{ color: "var(--text2)", fontSize: "13px", lineHeight: 1.85, maxWidth: 520, margin: 0, marginBottom: 14 }}>
+                IIT Madras. I build the system that produces the content, not the content itself. Scrapers, scorers, pipelines. Brief, code, and post: same person, same week.
+              </p>
+              <p style={{ color: "var(--text2)", fontSize: "13px", lineHeight: 1.85, maxWidth: 520, margin: 0, marginBottom: 14 }}>
+                National Mathematics Olympiad runner-up. Turns out useful when the growth problem is really a scoring problem. Next.js, TypeScript, Python. LLMs go in the stack where they belong.
+              </p>
               <p style={{ color: "var(--text2)", fontSize: "13px", lineHeight: 1.85, maxWidth: 520, margin: 0 }}>
-                Content coming soon.
+                Currently organizing The Modern AI Stack — 100+ AI practitioners, Hyderabad, May 2026. AI Workflows, Agent Security, Vibe Coding. Developer community work is not new.
               </p>
             </div>
           </div>
