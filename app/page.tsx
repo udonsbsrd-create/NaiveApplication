@@ -282,41 +282,6 @@ export default function Home() {
 
       </section>
 
-      {/* Opportunities */}
-      <section id="results" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--green)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>
-          Sprint Results
-        </div>
-        <h2 style={{ fontFamily: "var(--mono)", fontSize: "26px", fontWeight: 600, marginBottom: 14, letterSpacing: "-0.01em" }}>
-          What it found this week
-        </h2>
-        <p style={{ color: "var(--text2)", marginBottom: 36, lineHeight: 1.8, maxWidth: 620 }}>
-          Every row is a real thread from Reddit. Every gap is a query Naïve has zero indexed content for.
-          Score is a weighted blend of builder intent, bottleneck relevance, and deployment stage.
-        </p>
-
-        <div style={{ border: "1px solid var(--border2)", borderRadius: 8, overflow: "hidden" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "52px 1fr 110px 110px 90px", background: "var(--bg2)", borderBottom: "1px solid var(--border2)", padding: "10px 18px", fontFamily: "var(--mono)", fontSize: "10px", color: "var(--text3)", textTransform: "uppercase", letterSpacing: "0.07em" }}>
-            <span>Score</span><span>Query</span><span>Category</span><span>Source</span><span>Asset</span>
-          </div>
-          {OPPORTUNITIES.map((op, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "52px 1fr 110px 110px 90px", padding: "16px 18px", borderBottom: i < OPPORTUNITIES.length - 1 ? "1px solid var(--border)" : "none", alignItems: "start", background: i % 2 ? "var(--bg2)" : "transparent" }}>
-              <span style={{ fontFamily: "var(--mono)", fontSize: "14px", fontWeight: 600, color: op.scoreColor, paddingTop: 2 }}>{op.score}</span>
-              <div>
-                <div style={{ fontSize: "13px", color: "var(--text)", marginBottom: 6, lineHeight: 1.5 }}>{op.query}</div>
-                <div style={{ display: "flex", gap: 6 }}>
-                  <span style={{ fontFamily: "var(--mono)", fontSize: "10px", padding: "1px 6px", background: "#3ecf7812", border: "1px solid #3ecf7830", borderRadius: 2, color: "var(--green)" }}>PRIMARY</span>
-                  {op.gap && <span style={{ fontFamily: "var(--mono)", fontSize: "10px", padding: "1px 6px", background: "#e2533a12", border: "1px solid #e2533a30", borderRadius: 2, color: "var(--red)" }}>content gap</span>}
-                </div>
-              </div>
-              <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)", paddingTop: 2 }}>{op.category}</span>
-              <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)", paddingTop: 2 }}>{op.source}</span>
-              <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text3)", paddingTop: 2 }}>{op.asset}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Blog Posts */}
       <section id="blog" style={{ maxWidth: 880, margin: "0 auto", padding: "72px 28px", borderBottom: "1px solid var(--border)" }}>
         <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--blue)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18 }}>

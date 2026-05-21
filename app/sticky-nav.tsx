@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const SECTIONS = [
   { id: "bug",     label: "Bug Report", color: "var(--amber)" },
   { id: "engine",  label: "Engine",     color: "var(--blue)"  },
-  { id: "results", label: "Results",    color: "var(--green)" },
   { id: "blog",    label: "Blog",       color: "var(--blue)"  },
   { id: "roadmap", label: "Roadmap",    color: "var(--amber)" },
 ];
