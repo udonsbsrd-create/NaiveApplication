@@ -345,7 +345,7 @@ export default function Home() {
                 My stack is mostly Next.js, TypeScript, Python, and LLM tooling. I use AI where it actually helps, not as decoration.
               </p>
               <p style={{ color: "var(--text2)", fontSize: "13px", lineHeight: 1.85, maxWidth: 520, margin: 0 }}>
-                Right now, I&apos;m organizing <em>The Modern AI Stack</em> in Hyderabad — a gathering of 100+ AI practitioners around AI workflows, agent security, and vibe coding. I&apos;ve been involved in developer community and ecosystem work for a while, and I enjoy building things that make technical ideas easier to use and scale.
+                Right now, I&apos;m organizing <em>The Modern AI Stack</em> — a gathering of 100+ AI practitioners around AI workflows, agent security, and vibe coding. I&apos;ve been involved in developer community and ecosystem work for a while, and I enjoy building things that make technical ideas easier to use and scale.
               </p>
             </div>
           </div>
